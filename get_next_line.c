@@ -1,71 +1,65 @@
-#include <stdio.h>
-#include <fcntl.h>
-#include <string.h>
-#include <unistd.h>
-#include "/nfs/2016/e/esantos/42/libft/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esantos <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/22 16:00:01 by esantos           #+#    #+#             */
+/*   Updated: 2016/12/01 21:00:54 by esantos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#define BUFF_SIZE 6
-char buffer[BUFF_SIZE];
-char *pointer;
-extern char *line;
+#include "../libft/libft.h"
+#include "./get_next_line.h"
 
-int ft_linenum(char *str);
-int get_next_line(const int fd, char **line);
-
-int     main(void)
+int		get_next_line(const int fd, char **line)
 {
-	char  *line;
-	int   fd;
+	int				gotten;
+	static char		buffer[BUFF_SIZE + 1];
+	static char		*pointer;
+	static char		*news;
 
-	if ((fd = open("file.txt", O_RDONLY)) == -1)
+	if (!news && (news = (char*)ft_memalloc(sizeof(char))) == NULL)
 		return (-1);
-	if (get_next_line(fd, &line) != 0)
+	pointer = ft_strchr(buffer, '\n');
+	while(pointer == NULL)
 	{
-		printf("%s\n", line);
-		free(line);
+		if ((gotten = ft_io(fd, &news)) == 0)
+		{
+			//pointer = ft_strchr(news, '\0');
+			if ((pointer = ft_strchr(news, '\0')) == news)
+				return (0);
+		}
+		else if (gotten < 0)
+			return (-1);
+		else
+			pointer = ft_strchr(news, '\n');
 	}
-	if (close(fd) == -1)
+	*line = ft_strsub(news, 0, (pointer - news));
+	if (!*line)
 		return (-1);
-	return (0);
+	pointer = ft_strdup(pointer + 1);
+	free(news);
+	news = pointer;
+	return (1);
 }
 
-
-
-int get_next_line(const int fd, char **line)
+int		ft_io(int fd, char **news)
 {
-	int gotten;
-	extern char buffer[BUFF_SIZE];
-	int i;
-	int mark;
-	extern char *pointer;
-	char *new;
+	static int		gotten;
+	static char		buffer[BUFF_SIZE + 1];
+	static char		*arr;
 
-	mark = 0;
-	i = 0;
-	pointer = ft_strchr(buffer, '\n');
-	while((gotten = read(fd,buffer, BUFF_SIZE)) != 0)
+	ft_memset(buffer, '\n', BUFF_SIZE + 1);
+	gotten = read(fd, buffer, BUFF_SIZE;
+	if(gotten> 0) 
 	{
 		buffer[gotten] = '\0';
-		new = ft_strjoin(*line, buffer);
-		*line = new;
-	}
-	if( gotten == 0)
-	{
-		if((pointer = ft_strchr(new,'\0')) == *line)
-			return (0);
-	}
-		else if(gotten < 0)
-		{
+		arr = ft_strjoin(*news, buffer);
+		if(!arr)
 			return (-1);
-		}
-	else
-		pointer = ft_strchr(new, '\n');
-	
-	*line = ft_strsub(new, 0, pointer - new);
-	if(line == NULL)
-		return (0);
-	pointer = ft_strdup(pointer + 1);
-	free(new);
-	new = pointer;
-	return (1);
+		*news = arr;
+	}
+	return (gotten);
 }
