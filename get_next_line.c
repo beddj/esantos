@@ -6,7 +6,11 @@
 /*   By: esantos <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 16:00:01 by esantos           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2016/12/01 21:00:54 by esantos          ###   ########.fr       */
+=======
+/*   Updated: 2016/12/01 11:10:57 by esantos          ###   ########.fr       */
+>>>>>>> 0b653d943358fd04bb7c57f7f7bfd7db87f5431c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +28,7 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	pointer = ft_strchr(buffer, '\n');
 	while(pointer == NULL)
+<<<<<<< HEAD
 	{
 		if ((gotten = ft_io(fd, &news)) == 0)
 		{
@@ -39,6 +44,24 @@ int		get_next_line(const int fd, char **line)
 	*line = ft_strsub(news, 0, (pointer - news));
 	if (!*line)
 		return (-1);
+=======
+	{
+	
+	if ((gotten = ft_io(fd, &news)) == 0)
+	{
+		//pointer = ft_strchr(news, '\0');
+		if ((pointer = ft_strchr(news, '\0')) == news)
+			return (0);
+	}
+	else if (gotten < 0)
+		return (-1);
+	else
+		pointer = ft_strchr(news, '\n');
+	}
+	*line = ft_strsub(news, 0, (pointer - news));
+	if (line == NULL)
+		return (-1);
+>>>>>>> 0b653d943358fd04bb7c57f7f7bfd7db87f5431c
 	pointer = ft_strdup(pointer + 1);
 	free(news);
 	news = pointer;
@@ -52,6 +75,7 @@ int		ft_io(int fd, char **news)
 	static char		*arr;
 
 	ft_memset(buffer, '\n', BUFF_SIZE + 1);
+<<<<<<< HEAD
 	gotten = read(fd, buffer, BUFF_SIZE;
 	if(gotten> 0) 
 	{
@@ -59,6 +83,12 @@ int		ft_io(int fd, char **news)
 		arr = ft_strjoin(*news, buffer);
 		if(!arr)
 			return (-1);
+=======
+	while ((gotten = read(fd, buffer, BUFF_SIZE)) != 0)
+	{
+		buffer[gotten] = '\0';
+		arr = ft_strjoin(*news, buffer);
+>>>>>>> 0b653d943358fd04bb7c57f7f7bfd7db87f5431c
 		*news = arr;
 	}
 	return (gotten);
