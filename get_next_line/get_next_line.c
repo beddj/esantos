@@ -6,11 +6,11 @@
 /*   By: esantos <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 16:00:01 by esantos           #+#    #+#             */
-/*   Updated: 2016/12/10 17:14:13 by esantos          ###   ########.fr       */
+/*   Updated: 2017/01/26 21:19:16 by esantos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "./libft/libft.h"
 #include "./get_next_line.h"
 
 int		get_next_line(const int fd, char **line)
