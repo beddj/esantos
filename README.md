@@ -1,1 +1,1 @@
-# 42work
+Samples of work by Eric Santos
